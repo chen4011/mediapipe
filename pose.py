@@ -6,13 +6,14 @@ mp_pose = mp.solutions.pose                      # mediapipe 姿勢偵測
 
 # 寫入影像並儲存影片
 # cap = cv2.VideoCapture(0)         # 讀取攝影鏡頭
-cap = cv2.VideoCapture('D:\exp｜mediapipe\IMG_3702.mov') # 讀取電腦中的影片
+cap = cv2.VideoCapture('D:\exp｜mediapipe\ignore\IMG_3702.mov') # 讀取電腦中的影片
 width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))    # 取得影像寬度
 height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))  # 取得影像高度
+fps = int(cap.get(cv2.CAP_PROP_FPS))              # 取得影像幀率
 fourcc = cv2.VideoWriter_fourcc(*'MJPG')          # 設定影片的格式為 MJPG
-resize_wid = round(width/1)
-resize_hei = round(height/1)
-out = cv2.VideoWriter('pose_output.mp4', fourcc, 20.0, (resize_wid,  resize_hei))  # 產生空的影片
+resize_wid = round(width/1.5)                     # 更改影像寬度
+resize_hei = round(height/1.5)                    # 更改影像高度
+out = cv2.VideoWriter('D:\exp｜mediapipe\ignore\pose_output.mp4', fourcc, fps, (resize_wid,  resize_hei))  # 產生空的影片
 
 # 啟用姿勢偵測
 with mp_pose.Pose(
@@ -27,7 +28,7 @@ with mp_pose.Pose(
         if not ret:
             print("Cannot receive frame")
             break
-        img = cv2.resize(img,(resize_wid,resize_hei))          # 縮小尺寸，加快演算速度
+        img = cv2.resize(img,(resize_wid,resize_hei)) # 縮小尺寸，加快演算速度
         img2 = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)   # 將 BGR 轉換成 RGB
         results = pose.process(img2)                  # 取得姿勢偵測結果
         # 根據姿勢偵測結果，標記身體節點和骨架
