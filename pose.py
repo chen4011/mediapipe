@@ -33,10 +33,10 @@ with mp_pose.Pose(
         results = pose.process(img2)                  # 取得姿勢偵測結果
         # 根據姿勢偵測結果，標記身體節點和骨架
         mp_drawing.draw_landmarks(
-            img,
-            results.pose_landmarks,
-            mp_pose.POSE_CONNECTIONS,
-            landmark_drawing_spec=mp_drawing_styles.get_default_pose_landmarks_style())
+            img,                                      # 畫的圖片
+            results.pose_landmarks,                   # 畫的點的landmark
+            mp_pose.POSE_CONNECTIONS,                 # 將畫的點連在一起
+            landmark_drawing_spec=mp_drawing_styles.get_default_pose_landmarks_style()) # 點or線的樣式
 
         out.write(img)       # 將取得的每一幀圖像寫入空的影片
         cv2.imshow('pose_output', img)
