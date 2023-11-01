@@ -85,7 +85,7 @@ with mp_pose.Pose(
                     dis[frame-1][1] = dify = y1 - y0
                     dis[frame-1][2] = (difx ** 2 + dify ** 2) ** 0.5
 
-                # print(".")
+                print(".")
 
             out.write(img)       # 將取得的每一幀圖像寫入空的影片
             cv2.imshow('pose_output', img)
