@@ -20,6 +20,7 @@ print(frame_count)
 
 # 建立要蒐集的座標儲存格
 Pos = [[[0 for m in range(3)] for n in range(frame_count)] for o in range(2)]
+dis = [[0 for m in range(3)] for n in range(frame_count)]
 # print(Pos)
 # 要計算的座標點
 pt1 = 15
@@ -55,15 +56,15 @@ with mp_pose.Pose(
                     results.pose_landmarks,                   # 畫的點的landmark
                     mp_pose.POSE_CONNECTIONS,                 # 將畫的點連在一起
                     landmark_drawing_spec=mp_drawing_styles.get_default_pose_landmarks_style()) # 點or線的樣式
+                
+                # print('*')
+
+                # 取得兩點座標
                 # for i, lm in enumerate(results.pose_landmarks.landmark):
                 #     if i == 15 or i == 16:
                 #         xPos = int(lm.x * resize_wid)
                 #         yPos = int(lm.y * resize_hei)
                 #         print(i, xPos, yPos)
-                
-                # print('*')
-
-                # for i in range(frame_count):
                 for i, lm in enumerate(results.pose_landmarks.landmark):
                     if i == pt1:
                         xPos = int(lm.x * resize_wid)
@@ -73,14 +74,16 @@ with mp_pose.Pose(
                         xPos = int(lm.x * resize_wid)
                         yPos = int(lm.y * resize_hei)
                         Pos[1][frame-1] = [i, xPos, yPos]
-                    # if j == pt1:
-                    #     Pos[0][frame-1][0] = j
-                    #     Pos[0][frame-1][1] = int(lm.x * resize_wid)
-                    #     Pos[0][frame-1][2] = int(lm.y * resize_hei)
-                    # if j == pt2:
-                    #     Pos[1][frame-1][0] = j
-                    #     Pos[1][frame-1][1] = int(lm.x * resize_wid)
-                    #     Pos[1][frame-1][2] = int(lm.y * resize_hei)
+                    
+                    # 計算兩點距離
+                    x1 = float(Pos[1][frame-1][1])
+                    y1 = float(Pos[1][frame-1][2])
+                    x0 = float(Pos[0][frame-1][1])
+                    y0 = float(Pos[0][frame-1][2])
+
+                    dis[frame-1][0] = difx = x1 - x0
+                    dis[frame-1][1] = dify = y1 - y0
+                    dis[frame-1][2] = (difx ** 2 + dify ** 2) ** 0.5
 
                 # print(".")
 
@@ -89,7 +92,10 @@ with mp_pose.Pose(
             if cv2.waitKey(5) == ord('q'):
                 break     # 按下 q 鍵停止
         print(Pos)
+        print(dis)
         file.write(f'{Pos}')  # Write data to the file
+        file.write('\n')
+        file.write(f'{dis}')  # Write data to the file
         file.write('\n')
 cap.release()
 # out.release()      # 釋放資源
