@@ -7,7 +7,7 @@ mp_pose = mp.solutions.pose                      # mediapipe 姿勢偵測
 
 # 寫入影像並儲存影片
 # cap = cv2.VideoCapture(0)         # 讀取攝影鏡頭
-cap = cv2.VideoCapture('D:\exp_mediapipe\ignore\IMG_3917.MOV') # 讀取電腦中的影片
+cap = cv2.VideoCapture('D:\exp_mediapipe\ignore\TC_S1_walking2_cam1.mp4') # 讀取電腦中的影片
 width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))    # 取得影像寬度
 height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))  # 取得影像高度
 fps = int(cap.get(cv2.CAP_PROP_FPS))              # 取得影像幀率
